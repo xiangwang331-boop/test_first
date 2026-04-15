@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1061</width>
+    <height>772</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#frame{
+    border-image: url(:/background/background/background1.jpeg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; /* 尝试使用 contain 属性 */}
+#frame_button{
+    background-color: rgba(0, 173, 255,120); 
+    background-repeat: no-repeat;
+    background-position:;
+    background-size: contain; /* 尝试使用 contain 属性 */}
+QLabel {
+    background-color: rgba(0, 0, 0, 100);
+    color: white;
+    font-size: 20px;
+    border: 2px solid #2980b9;
+}
+#label_frame{
+    font-size: 30px; /* 字体大小 */
+    padding: 5px; /* 内边距 */
+    text-align: center;    /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */
+    background-color: white;
+    color: black; 
+    border: 2px solid #2980b9; /* 边框颜色和宽度 */
+}
+
+
+#label_path{
+    font-size: 30px; /* 字体大小 */
+    padding: 5px; /* 内边距 */
+    padding-left:0px;
+    text-align: center;    /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */
+    background-color: white;
+    color: black; 
+    border: none; /* 边框颜色和宽度 */
+}
+
+
+QComboBox {
+    background-color: #3498db; /* 按钮背景色 */
+    color: white; /* 按钮文字颜色 */
+    border: 2px solid #2980b9; /* 边框颜色和宽度 */
+    border-radius: 10px; /* 圆角效果 */
+    font-size: 30px; /* 字体大小 */
+    padding: 5px; /* 内边距 */
+    text-align: center;    /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */   
+}
+QComboBox:hover { 
+color: red;
+font-size: 29px; /* 字体大小 */
+}
+QPushButton[flat=&quot;false&quot;]{
+    background-color: #3498db; /* 按钮背景色 */
+    color: white; /* 按钮文字颜色 */
+    border: 2px solid #2980b9; /* 边框颜色和宽度 */
+    border-radius: 10px; /* 圆角效果 */
+    font-size: 30px; /* 字体大小 */
+    padding: 5px; /* 内边距 */
+    text-align: center;    /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */           
+}
+QPushButton[flat=&quot;false&quot;]:hover {
+    color: red; /* 鼠标悬停时的文字颜色 */
+    font-size: 29px; /* 鼠标悬停时放大字体 */
+}
+#select_model_Button{
+    background-color: #3498db; /* 按钮背景色 */
+    color: white; /* 按钮文字颜色 */
+    border: 2px solid #2980b9; /* 边框颜色和宽度 */
+    border-radius: 10px; /* 圆角效果 */
+    font-size: 27px; /* 字体大小 */
+    padding: 5px; /* 内边距 */
+    text-align: center;    /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */  
+}
+#select_model_Button:hover{
+    color: red; /* 鼠标悬停时的文字颜色 */
+    font-size: 26px; /* 鼠标悬停时放大字体 */
+}
+
+
+QPushButton:hover { 
+color: red;
+font-size: 29px; /* 字体大小 */
+}
+
+QPushButton{
+    background-color:rgb(255, 255, 255); /* 按钮背景色 */
+    color:rgb(0, 0, 0); /* 按钮文字颜色 */
+    border: 2px solid rgb(0, 0, 0); /* 边框颜色和宽度 */
+    border-radius: 0px; /* 圆角效果 */
+    font-size: 30px; /* 字体大小 */
+    padding: 5px; /* 内边距 */
+    text-align: left; /* 文字左对齐 */
+    padding-left: 10px; /* 可选：设置文字左侧的间距 */
+   
+}
+
+QLabel[labelhead=false]{
+    background: transparent; /* 背景透明 */
+    border: none; /* 可选：移除边框 */         
+    color: rgb(255, 255, 255) ;  
+    font-size: 40px; /* 字体大小 */       /* 字体颜色 */
+}
+#label_title{
+    background: transparent; /* 背景透明 */
+    border: none; /* 可选：移除边框 */         
+    color: rgb(255, 255, 255) ; 
+   font-size: 30px; /* 字体大小 */ 
+    
+}
+
+#spinBox{
+    font-size: 30px; /* 字体大小 */
+    text-align: center; /* 文字左对齐 */
+}
+
+
+QRadioButton::unchecked{color:rgb(255, 0, 0);}
+QRadioButton::checked{color:rgb(0, 255, 0);}
+QRadioButton::indicator:checked {
+    border-radius: 10px; /* 圆角效果 */
+    background-color:rgb(0,255,0);
+}
+
+</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,7,4,1">
+      <item>
+       <widget class="QFrame" name="frame_5">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label_title">
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>IJP检测</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_3">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1">
+         <item>
+          <widget class="QLabel" name="original_image">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="show" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="compare_image">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="show" stdset="0">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="res_label">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_4">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,1">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="label_path">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="text">
+              <string>文件路径:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="open_image_Button">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>选择图片</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_6">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QPushButton" name="detect_Button">
+              <property name="text">
+               <string>狭缝识别</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="save_Button">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+              <property name="text">
+               <string>保存结果</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="b1.qrc"/>
+ </resources>
+ <connections/>
+</ui>
