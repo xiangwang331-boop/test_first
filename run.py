@@ -530,3 +530,4 @@ if __name__ == "__main__":
     # GUI模式（默认）
     main()
     print("验证Git")
+    print("再次验证Git2")
