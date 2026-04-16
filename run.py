@@ -531,4 +531,6 @@ if __name__ == "__main__":
     main()
     print("验证Git")
     print("再次验证Git2")
+    print("三次验证Git")
+    print("第四次验证Git")
     print("三次验证Git3")
