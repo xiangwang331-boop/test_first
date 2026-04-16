@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import os
 import cv2
 import numpy as np
 from PyQt5 import QtWidgets, QtCore
@@ -64,6 +63,30 @@ class MainWindow(QtWidgets.QWidget, Ui_Form):
 
         # 启用HTML渲染并设置文本格式
         self.res_label.setTextFormat(QtCore.Qt.RichText)  # 富文本格式
+        self.res_label.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.res_label.setMargin(0)
+        self.res_label.setWordWrap(True)
+
+        # 一次性拦截 setText：在写入表格HTML时转为全宽，避免定时器闪烁。
+        original_set_text = self.res_label.setText
+
+        def set_text_hook(text):
+            if isinstance(text, str):
+                text = self._to_fullwidth_table_html(text)
+            original_set_text(text)
+
+        self.res_label.setText = set_text_hook
+
+    def _to_fullwidth_table_html(self, text):
+        """将结果表格转换为占满 res_label 宽度的HTML。"""
+        if "<table" not in text or 'data-fullwidth="1"' in text:
+            return text
+        text = text.replace(
+            '<table class="data-table">',
+            '<table class="data-table" data-fullwidth="1" width="100%" cellspacing="0" cellpadding="0" style="width:100%; table-layout:fixed;">',
+            1,
+        )
+        return f'<div style="width:100%; margin:0; padding:0;">{text}</div>'
 
 
     def connect_signals(self):
@@ -166,21 +189,7 @@ class MainWindow(QtWidgets.QWidget, Ui_Form):
             self.panel = panel
             self.rev_cnt = rev_cnt
             self.overflow_item = overflow_item
-            # =============================================================
-            # # ========== 2. Label显示（新格式：一行表头一行数据）==========
-            # display_text = ""
-            #
-            # # 表头行
-            # display_text += f"{'Glass ID':<12} {'Panel':<8} {'REVCnt':<8}"
-            # for res in step_results:
-            #     display_text += f" {res['label']:<14}"
-            # display_text += f" {'溢流结果':<10}\n"
-            #
-            # # 数据行
-            # display_text += f"{glass_id:<12} {panel:<8} {rev_cnt:<8}"
-            # for res in step_results:
-            #     display_text += f" {res['grade']:<14}"
-            # display_text += f" {overflow_item:<10}"
+
 
 
             # ========== 使用HTML表格输出 ==========
@@ -381,89 +390,6 @@ class MainWindow(QtWidgets.QWidget, Ui_Form):
                     except Exception as e:
                         QtWidgets.QMessageBox.critical(self, "错误", f"保存CSV失败: {str(e)}")
 
-    def save_image(self):
-        """保存标注图像"""
-        if self.annotated_image is None:
-            QtWidgets.QMessageBox.warning(self, "警告", "没有标注图像可保存！")
-            return
-
-        # 生成默认文件名
-        from datetime import datetime
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        default_name = f"slits_annotation_{timestamp}.jpg"
-
-        # 弹出保存对话框
-        file_name, _ = QFileDialog.getSaveFileName(
-            self,
-            "保存标注图像",
-            default_name,
-            "JPEG Files (*.jpg);;PNG Files (*.png);;All Files (*)"
-        )
-
-        if file_name:
-            cv2.imwrite(file_name, self.annotated_image)
-            QtWidgets.QMessageBox.information(self, "保存成功", f"标注图像已保存至:\n{file_name}")
-            print(f"标注图像已保存: {file_name}")
-
-    def save_csv(self):
-        """保存识别结果到CSV文件"""
-        if self.recognition_results is None:
-            QtWidgets.QMessageBox.warning(self, "警告", "没有识别结果可保存！")
-            return
-
-        # 生成默认文件名
-        from datetime import datetime
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        default_name = f"slits_results_{timestamp}.csv"
-
-        # 弹出保存对话框
-        file_name, _ = QFileDialog.getSaveFileName(
-            self,
-            "保存CSV结果",
-            default_name,
-            "CSV Files (*.csv);;All Files (*)"
-        )
-
-        if file_name:
-            try:
-                # 获取属性数据
-                struct_names = [res["label"] for res in getattr(self, 'step_results', [])]
-                grades = [res["grade"] for res in getattr(self, 'step_results', [])]
-
-                glass_id = getattr(self, 'glass_id', 'N/A')
-                panel = getattr(self, 'panel', 'N/A')
-                rev_cnt = getattr(self, 'rev_cnt', 'N/A')
-                overflow_result = getattr(self, 'overflow_item', 'N/A')
-
-                # 写入CSV
-                import csv
-                with open(file_name, 'w', newline='', encoding='utf-8-sig') as csvfile:
-                    writer = csv.writer(csvfile)
-
-                    # 写入标题行
-                    writer.writerow(['Glass ID', 'Panel', 'REVCnt'])
-                    writer.writerow([glass_id, panel, rev_cnt])
-                    writer.writerow([])  # 空行
-
-                    # 写入结构名称行
-                    writer.writerow(['结构名称'] + struct_names)
-                    # 写入得分行
-                    writer.writerow(['得分'] + grades)
-                    writer.writerow([])  # 空行
-
-                    # 写入溢流结果
-                    writer.writerow(['溢流结果', overflow_result])
-
-                QtWidgets.QMessageBox.information(
-                    self,
-                    "保存成功",
-                    f"CSV结果已保存至:\n{file_name}"
-                )
-                print(f"识别结果已保存至: {file_name}")
-
-            except Exception as e:
-                QtWidgets.QMessageBox.critical(self, "错误", f"保存失败: {str(e)}")
-
     def print_results_to_console(self, results):
         """在控制台打印识别结果"""
         print("\n" + "=" * 50)
@@ -477,38 +403,6 @@ class MainWindow(QtWidgets.QWidget, Ui_Form):
 
         print(f"\n共识别到 {len(results)} 个结构")
         print("=" * 50 + "\n")
-
-    def get_recognition_results(self):
-        """
-        获取识别结果的接口
-        返回识别结果列表
-        """
-        return self.recognition_results
-
-    def get_annotated_image(self):
-        """
-        获取标注图像的接口
-        返回标注后的图像
-        """
-        return self.annotated_image
-
-    def get_current_image(self):
-        """
-        获取当前加载的图像
-        返回原始图像
-        """
-        return self.current_image
-
-
-class SlitsRecognitionApp:
-    """独立的狭缝识别应用类（用于批量处理）"""
-
-    def __init__(self):
-        self.recognizer = SlitsRecognizer()
-
-    def process_single_image(self, image_path, output_path=None):
-        """处理单张图像"""
-        return self.recognizer.recognize(image_path, output_path, show_plot=True)
 
 
 def main():
@@ -530,5 +424,4 @@ if __name__ == "__main__":
     # GUI模式（默认）
     main()
     print("验证Git")
-    print("再次验证Git2")
-    print("三次验证Git3")
+
