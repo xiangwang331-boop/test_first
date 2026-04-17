@@ -12,7 +12,7 @@ class OCRScanner:
     已由 EasyOCR 切换为 PaddleOCR
     """
 
-    def __init__(self, gpu=True):
+    def __init__(self, gpu=False):
         """
         初始化 PaddleOCR 识别器
         """
