@@ -4,13 +4,15 @@ import os
 import re
 import numpy as np
 from paddleocr import PaddleOCR
+
+
 class OCRScanner:
     """
     针对面板信息（GlassID, Panel, REVCnt）的 OCR 识别类
     已由 EasyOCR 切换为 PaddleOCR
     """
 
-    def __init__(self, gpu=False):
+    def __init__(self, gpu=True):
         """
         初始化 PaddleOCR 识别器
         """
@@ -27,10 +29,18 @@ class OCRScanner:
         if not text: return ""
         # 统一转大写并移除空格
         text = text.upper().replace(" ", "")
+        garbage_tails = ["L", "I", "1", "[", "|"]
 
         if mode == 'general':
             # 匹配 PAN + 2位任意字符 + [IL|1]，替换为 PANEL
-            text = re.sub(r"PAN.{2}[\[IL|1]", "PANEL", text)
+            found = True
+            while found:
+                found = False
+                for tail in garbage_tails:
+                    target = "PANE" + tail
+                    if target in text:
+                        text = text.replace(target, "PANE")
+                        found = True
             # 匹配 GLA + 4位任意字符 + [IL|1]，替换为 GLASSID
             text = re.sub(r"GLA.{4}[\[IL|1]", "GLASSID", text)
         elif mode == 'rev':
@@ -38,6 +48,8 @@ class OCRScanner:
             text = re.sub(r"REV.{3}[\[IL|]", "REVCNT", text)
             # 针对 REVCNT 的常见错误字符替换
             text = text.replace('O', '0').replace('G', '9').replace('S', '5').replace('B', '8')
+            text = text.replace('L', '1').replace('A', '4').replace('Z', '2')
+
         return text
 
     def extract_precise(self, t1, t2):
@@ -54,7 +66,7 @@ class OCRScanner:
 
         # 提取 Panel: PANEL 后面 3 位
         p_id = "N/A"
-        p_match = re.search(r"PANE.{1}(.{3})", t1)
+        p_match = re.search(r"PANE(.{3})", t1)
         if p_match: p_id = p_match.group(1)
 
         # 提取 REVCnt: REVCNT 后面 3 位
@@ -76,9 +88,9 @@ class OCRScanner:
 
         # 按照 paddle_ocr.py 的坐标比例进行裁剪
         # 区域 1: 左下角 GlassID/Panel 区域
-        crop_img1 = img[h-110:h-60, 0:w-1700]
+        crop_img1 = img[h - 110:h - 60, 0:w - 1700]
         # 区域 2: 右下角 REVCnt 区域
-        crop_img2 = img[h-155:h-100, 1750:w-400]
+        crop_img2 = img[h - 155:h - 100, 1750:w - 400]
 
         # 使用 PaddleOCR 识别
         res1_list = self.ocr_engine.ocr(crop_img1, cls=True)
